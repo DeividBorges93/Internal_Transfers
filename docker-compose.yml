@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  frontend:
+    build: frontend/
+    ports:
+    - 3000:3000
+    restart: on-failure
+    depends_on:
+    - backend
+  backend:
+    build: backend/
+    ports:
+      - 3001:3001
+    restart: on-failure
+    environment:
+    - DB_HOST=postgres
+    depends_on:
+    - postgres
+  postgres:
+    image: postgres:10.3
+    container_name: internal_transfers
+    restart: on-failure
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=12345678
+    volumes:
+    - postgres:/var/lib/postgresql/data
+    ports:
+    - '5432:5432'
+volumes:
+  postgres:
