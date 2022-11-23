@@ -1,26 +1,33 @@
-import { PrismaClient } from '@prisma/client'
-import IUser from '../interfaces/IUser';
-import IError from '../interfaces/IError';
+import { User, PrismaClient } from '@prisma/client'
+import InvalidUser from '../customErrors/InvalidUser';
 
 const prisma = new PrismaClient();
 
 export default class UserService {
-  public register = async (user: IUser): Promise<IUser | IError> => {
+  public register = async (user: User): Promise<User | InvalidUser> => {
     
-    if (!user) return { code: 400, message: 'Invalid fields' };
+    const { username, password } = user;
 
-    const createdAccount = await prisma.account.create({
-      data: {
-        balance: 100
-      },
+    if (!username || !password) throw new InvalidUser('Todos os campos são obrigatórios');
+
+    const userAlreadyExists = await prisma.user.findFirst({
+      where: { username }
     });
-    const createdUser = await prisma.user.create({
-      data: {
-        username: user.username,
-        password: user.password,
-        accountId: createdAccount.id
-      },
-    });
-    return createdUser;
+    
+    if (userAlreadyExists) throw new InvalidUser('Usuário já existe');
+
+      const createdAccount = await prisma.account.create({
+        data: {
+          balance: 100
+        },
+      });
+      const createdUser = await prisma.user.create({
+        data: {
+          username: username,
+          password: password,
+          accountId: createdAccount.id
+        },
+      });
+      return createdUser;
   }
 }
