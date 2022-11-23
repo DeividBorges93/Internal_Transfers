@@ -1,38 +1,56 @@
 version: '3.8'
 services:
-  frontend:
-    build: frontend/
-    ports:
-    - 3000:3000
-    restart: on-failure
-    depends_on:
-    - backend
-    volumes:
-      - frontend:/frontend
-  backend:
-    build: backend/src
-    ports:
-      - 3001:3001
-    restart: on-failure
-    environment:
-    - DB_HOST=postgres
-    - DATABASE_URL="postgresql://postgres:12345678@localhost:5432/internal_transfers?schema=public"
-    depends_on:
-    - postgres
-    volumes:
-      - backend:/backend/src
   postgres:
-    image: postgres:10.3
-    container_name: internal_transfers
-    restart: on-failure
+    image: postgres:13
+    container_name: postgres
+    hostname: postgres
+    ports:
+    - '5432:5432'
     environment:
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=12345678
+    - POSTGRES_DB=db_internal_transfers
     volumes:
-    - postgres:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+  prisma:
+    stdin_open: true
+    build: backend/prisma
+    depends_on: 
+      - postgres
     ports:
-    - '5432:5432'
-volumes:
-  postgres:
+      - 3002:3002
+    restart: always
+    environment:
+    - DATABASE_URL=postgresql://postgres:12345678@postgres:5432/db_internal_transfers
+
   backend:
-  frontend:
+    links:
+    - postgres
+    depends_on:
+    - postgres
+    container_name: backend
+    ports:
+      - 3001:3001
+    build: backend
+    restart: on-failure
+    environment:
+    - DB_HOST=postgres
+
+    volumes:
+      - ./backend:/internal_transfers/backend
+     
+  # frontend:
+  #   container_name: frontend
+  #   build: frontend
+  #   ports:
+  #   - 3000:3000
+  #   restart: on-failure
+  #   depends_on:
+  #   - backend
+  #   volumes:
+  #     - ./frontend:/internal_transfers/frontend
+  #     - internal_transfers/frontend/node_modules
+volumes:
+  backend:
+  postgres-data:

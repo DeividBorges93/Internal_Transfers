@@ -13,10 +13,19 @@ model Account {
   balance Int
 }
 
-model  User {
+model User {
   id Int @id @default(autoincrement())
   username String @db.VarChar(25)
   password String @db.VarChar(100)
   account Account @relation(fields: [accountId], references: [id])
   accountId Int @unique
+}
+
+model Transation {
+  id Int @id @default(autoincrement())
+  // account Account @relation(fields: [AccountId, creditedAccountId], references: [id, id])
+  // debitedAccountId Int
+  // creditedAccountId Int
+  value Int
+  createdAt DateTime @default(now())
 }
