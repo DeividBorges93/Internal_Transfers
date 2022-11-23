@@ -7,15 +7,20 @@ services:
     restart: on-failure
     depends_on:
     - backend
+    volumes:
+      - frontend:/frontend
   backend:
-    build: backend/
+    build: backend/src
     ports:
       - 3001:3001
     restart: on-failure
     environment:
     - DB_HOST=postgres
+    - DATABASE_URL="postgresql://postgres:12345678@localhost:5432/internal_transfers?schema=public"
     depends_on:
     - postgres
+    volumes:
+      - backend:/backend/src
   postgres:
     image: postgres:10.3
     container_name: internal_transfers
@@ -29,3 +34,5 @@ services:
     - '5432:5432'
 volumes:
   postgres:
+  backend:
+  frontend:
