@@ -1,6 +1,7 @@
 import 'express-async-errors';
 import express from 'express';
 import userRouter from '../routes/user.routes';
+import errorMiddleware from '../middlewares/errorMiddleware';
 
 class Api {
   public api: express.Express;
@@ -23,6 +24,8 @@ class Api {
     this.api.use(accessControl);
 
     this.api.use(userRouter);
+
+    this.api.use(errorMiddleware);
   }
 
   public start(PORT: string | number):void {
