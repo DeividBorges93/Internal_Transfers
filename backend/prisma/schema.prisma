@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -8,15 +9,30 @@ datasource db {
 }
 
 model Account {
-  id Int @id @default(autoincrement())
-  user User?
-  balance Int
+  id              Int          @id @default(autoincrement())
+  user            User?
+  debitedAccount  Transaction[] @relation("debitedAccountId")
+  creditedAccount Transaction[] @relation("creditedAccountId")
+  transaction      Transaction   @relation(fields: [transactionId], references: [id])
+  transactionId    Int          @unique
+  balance         Int
 }
 
-model  User {
-  id Int @id @default(autoincrement())
-  username String @db.VarChar(25)
-  password String @db.VarChar(100)
-  account Account @relation(fields: [accountId], references: [id])
-  accountId Int @unique
+model User {
+  id        Int     @id @default(autoincrement())
+  username  String  @db.VarChar(25)
+  password  String  @db.VarChar(100)
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId Int     @unique
+}
+
+model Transaction {
+  id                Int      @id @default(autoincrement())
+  account           Account?
+  debitedAccountId  Int
+  debitedAccount    Account  @relation("debitedAccountId", fields: [debitedAccountId], references: [id])
+  creditedAccountId Int
+  creditedAccount   Account  @relation("creditedAccountId", fields: [creditedAccountId], references: [id])
+  value             Int
+  createdAt         DateTime @default(now())
 }
