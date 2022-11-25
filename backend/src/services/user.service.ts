@@ -73,8 +73,6 @@ export default class UserService {
     
     if (!matchPassword) throw { code: 401, message: 'Senha inválida' };
 
-    
-
     const token = new Jwt().encrypt({ id, username, accountId});
 
     req.headers.Authorization = token;
@@ -92,5 +90,5 @@ export default class UserService {
     if(!accountByUser) throw { code: 401, message: 'Conta não encontrada' };
 
     return accountByUser.balance;
-  }
+  };
 }
