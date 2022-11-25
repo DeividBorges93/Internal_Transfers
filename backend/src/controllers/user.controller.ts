@@ -18,7 +18,7 @@ export default class UserController {
 
   public getBalance = async (req: Request, res: Response, next: NextFunction) => {
     const balance = await this.userService.getBalance(req);
-    
+
     return res.status(200).json(balance);
   };
 }

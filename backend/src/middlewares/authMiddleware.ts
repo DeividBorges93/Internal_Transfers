@@ -1,16 +1,16 @@
-import { NextFunction, Request, Response } from 'express';
-import { JwtPayload } from 'jsonwebtoken';
+import { Request } from 'express';
 import Jwt from '../utils/tokenGenerator';
 
 export default class AuthMiddleware {
   public validateAuthorization(req: Request) {
     const jwt = new Jwt();
-    const { authorization } = req.headers;
 
-    if (!authorization) throw { code: 401, message:  'É nescessário um token válido' }
+    if (!req.headers.authorization) throw { code: 401, message:  'É nescessário um token válido' };
+    
+    const { authorization } = req.headers;
 
     const tokenDecrypt = jwt.decrypt(authorization);
 
     return tokenDecrypt;
-  }
-}
+  };
+};
