@@ -15,6 +15,7 @@
     "jwt",
     "thunderCli",
     "controllers",
-    "routes"
+    "routes",
+    "middlewares"
   ]
 }
