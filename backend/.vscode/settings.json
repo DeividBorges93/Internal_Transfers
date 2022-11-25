@@ -1,0 +1,13 @@
+{
+  "conventionalCommits.scopes": [
+    "config",
+    "docker",
+    "package",
+    "schemas_zod",
+    "utils",
+    "interfaces",
+    "custom_erro",
+    "services",
+    "conventionalCommits"
+  ]
+}
