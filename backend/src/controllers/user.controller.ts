@@ -8,5 +8,11 @@ export default class UserController {
     const result = await this.userService.register(req.body);
 
     return res.status(200).json(result);
+  };
+
+  public login = async (req: Request, res: Response, next: NextFunction) => {
+    const { token } = await this.userService.login(req);
+    
+    return res.status(200).json(token);
   }
 }
