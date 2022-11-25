@@ -16,6 +16,8 @@
     "thunderCli",
     "controllers",
     "routes",
-    "middlewares"
+    "middlewares",
+    "logs",
+    "user"
   ]
 }
