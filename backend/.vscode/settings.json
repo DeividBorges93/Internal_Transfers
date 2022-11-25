@@ -8,6 +8,13 @@
     "interfaces",
     "custom_erro",
     "services",
-    "conventionalCommits"
+    "conventionalCommits",
+    "erros",
+    "prisma",
+    "password",
+    "jwt",
+    "thunderCli",
+    "controllers",
+    "routes"
   ]
 }
