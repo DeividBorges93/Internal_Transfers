@@ -13,8 +13,6 @@ model Account {
   user            User?
   debitedAccount  Transaction[] @relation("debitedAccountId")
   creditedAccount Transaction[] @relation("creditedAccountId")
-  transaction      Transaction   @relation(fields: [transactionId], references: [id])
-  transactionId    Int          @unique
   balance         Int
 }
 
@@ -28,7 +26,6 @@ model User {
 
 model Transaction {
   id                Int      @id @default(autoincrement())
-  account           Account?
   debitedAccountId  Int
   debitedAccount    Account  @relation("debitedAccountId", fields: [debitedAccountId], references: [id])
   creditedAccountId Int
