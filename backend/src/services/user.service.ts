@@ -6,6 +6,7 @@ import { User } from '../schemas/schemas';
 import Jwt from '../utils/tokenGenerator';
 import HashPassword from '../utils/hashPassword';
 import Validations from '../middlewares/validations';
+import AuthMiddleware from '../middlewares/authMiddleware';
 import IUser from '../interfaces/IUser';
 
 const prisma = new PrismaClient();
@@ -72,12 +73,24 @@ export default class UserService {
     
     if (!matchPassword) throw { code: 401, message: 'Senha inválida' };
 
-    const jwt = new Jwt();
+    
 
-    const token = jwt.encrypt({ id, username, accountId})
+    const token = new Jwt().encrypt({ id, username, accountId});
 
     req.headers.Authorization = token;
 
     return { token } as IToken;
+  };
+
+  public getBalance = async (req: Request): Promise<number> => {
+    const user = new AuthMiddleware().validateAuthorization(req);
+    
+    const accountByUser = await prisma.account.findUnique({
+      where: { id: user.accountId }
+    })
+
+    if(!accountByUser) throw { code: 401, message: 'Conta não encontrada' };
+
+    return accountByUser.balance;
   }
 }
