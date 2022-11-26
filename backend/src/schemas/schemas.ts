@@ -16,8 +16,8 @@ const messages = {
 }
 
 export const UserSchema = z.object({
-    username: z.string().min(numMinUsername, messages.minUsername),
-    password: z.string().min(numMinPassword, messages.minLogin), //.regex(regexExp, { message: messages.numAndUpCase }),
+    username: z.string({ required_error: 'Username é obrigatório'}).min(numMinUsername, messages.minUsername),
+    password: z.string({ required_error: 'Password é obrigatório'}).min(numMinPassword, messages.minLogin), //.regex(regexExp, { message: messages.numAndUpCase }),
   })
 
   export type User = z.infer<typeof UserSchema>;
