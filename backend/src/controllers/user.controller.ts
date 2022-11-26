@@ -11,14 +11,10 @@ export default class UserController {
   };
 
   public login = async (req: Request, res: Response, next: NextFunction) => {
-    const { token } = await this.userService.login(req);
-    
+    const { token } = await this.userService.login(req.body);
+
+    req.headers.Authorization = token;
+
     return res.status(200).json(token);
-  };
-
-  public getBalance = async (req: Request, res: Response, next: NextFunction) => {
-    const balance = await this.userService.getBalance(req);
-
-    return res.status(200).json(balance);
   };
 }
