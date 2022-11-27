@@ -1,0 +1,11 @@
+{
+  "conventionalCommits.scopes": [
+    "docker-compoe",
+    "docker-compose",
+    "conventionalCommits",
+    "react",
+    "pages",
+    "components",
+    
+  ],
+}
