@@ -1,6 +1,6 @@
 import 'express-async-errors';
 import express from 'express';
-import userRouter from '../routes/user.routes';
+import { userRouter, transactionRouter } from '../routes';
 import errorMiddleware from '../middlewares/errorMiddleware';
 
 class Api {
@@ -24,6 +24,7 @@ class Api {
     this.api.use(accessControl);
 
     this.api.use(userRouter);
+    this.api.use(transactionRouter);
 
     this.api.use(errorMiddleware);
   }
