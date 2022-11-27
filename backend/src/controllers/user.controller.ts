@@ -7,7 +7,7 @@ export default class UserController {
   public register = async (req: Request, res: Response, next: NextFunction) => {
     const result = await this.userService.register(req.body);
 
-    return res.status(200).json(result);
+    return res.status(201).json(result);
   };
 
   public login = async (req: Request, res: Response, next: NextFunction) => {
