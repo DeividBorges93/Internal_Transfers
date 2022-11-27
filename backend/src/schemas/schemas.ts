@@ -16,8 +16,15 @@ const messages = {
 }
 
 export const UserSchema = z.object({
-    username: z.string({ required_error: 'Username é obrigatório'}).min(numMinUsername, messages.minUsername),
+    username: z.string({ required_error: 'Username é obrigatório' }).min(numMinUsername, messages.minUsername),
     password: z.string({ required_error: 'Password é obrigatório'}).min(numMinPassword, messages.minLogin), //.regex(regexExp, { message: messages.numAndUpCase }),
-  })
+  });
 
-  export type User = z.infer<typeof UserSchema>;
+export type User = z.infer<typeof UserSchema>;
+
+export const TransactionSchema = z.object({
+  creditedAccountId: z.number({ required_error: 'CreditedAccountId é obrigatório' }),
+  value: z.number({ required_error: 'Value é obrigatório' }),
+});
+
+export type Transaction = z.infer<typeof TransactionSchema>;
