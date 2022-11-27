@@ -40,9 +40,6 @@ export default function Register() {
       
       const hasError = validateFieldsUser(data);
 
-      console.log(hasError, 'haserror');
-      
-
       if (hasError) {
         setErrors(hasError);
       }
@@ -57,42 +54,39 @@ export default function Register() {
         <div className="wrap-register">
           <form className="form-register" onSubmit={ addUser }>
             {errors && <span className='error-message-register'>{errors.message}</span>}
-
             <h1 className='form-register-title'>Cadastro de usuário</h1>
-          <div className="wrap-register-input">
-            <input
-              type="text"
-              className='input-register'
-              id="username"
-              name="name"
-              placeholder="Digite seu usuário"
-              ref={refUsername}
-            />
-            <span className="focus-input" data-placeholder="Name"></span>
-          </div>
-          <div className="wrap-register-input">
-            <input
-              type="password"
-              className='input-register'
-              id="password"
-              name="name"
-              placeholder="Digite sua senha"
-              ref={refPassword}
-            />
-            <span className="focus-input" data-placeholder="Name"></span>
-          </div>
-          <div className='container-register-form-btn'>
-            <button
-              className='register-form-btn'
-              type='submit'
-            >
-              Finalizar
-            </button>
-          </div>
-          <div className="text-ja-possui-conta">
-            <span className="text">Já possui conta?</span>
-            <a href="/user/login" className="link-login-page">Fazer login.</a>
-          </div>
+            <div className="wrap-register-input">
+              <input
+                type="text"
+                className='input-register'
+                id="username"
+                name="name"
+                placeholder="Digite seu usuário"
+                ref={refUsername}
+              />
+            </div>
+            <div className="wrap-register-input">
+              <input
+                type="password"
+                className='input-register'
+                id="password"
+                name="name"
+                placeholder="Digite sua senha"
+                ref={refPassword}
+              />
+            </div>
+            <div className='container-register-form-btn'>
+              <button
+                className='register-form-btn'
+                type='submit'
+              >
+                Finalizar
+              </button>
+            </div>
+            <div className="text-ja-possui-conta">
+              <span className="text">Já possui conta?</span>
+              <a href="/user/login" className="link-login-page">Fazer login.</a>
+            </div>
           </form>
         </div>
       </div>
