@@ -1,19 +1,19 @@
 import { PrismaClient } from '@prisma/client'
-import { Request } from 'express';
 import IToken from '../interfaces/IToken';
 import IError from '../interfaces/IError';
 import { User } from '../schemas/schemas';
 import Jwt from '../utils/tokenGenerator';
 import { hash, compareHash} from '../utils/hashPassword';
-import validateUser from '../middlewares/validateUser';
+import { validateFieldsUser } from '../utils/validateFields';
+import UserAlreadyRegistered from '../utils/userAlreadyRegistered';
 import IUser from '../interfaces/IUser';
 
 const prisma = new PrismaClient();
+const userAlreadyRegistered = new UserAlreadyRegistered();
 
 export default class UserService {
-
   public register = async (user: User): Promise<IUser | IError> => {
-    validateUser(user);
+    validateFieldsUser(user);
 
     const initialbalance = 100;
     
@@ -27,11 +27,7 @@ export default class UserService {
 
     const hashedPassword = hash(password, 8);
 
-    const userAlreadyExists = await prisma.user.findFirst({
-      where: { username },
-    });
-
-    if (userAlreadyExists) throw { code: 401, message: 'Usuário já existe' };
+    await userAlreadyRegistered.verifyForRegister(username);
 
     const createdUser = await prisma.user.create({
       data: {
@@ -47,20 +43,13 @@ export default class UserService {
   };
 
   public login = async (user: User): Promise<IToken> => {
-    validateUser(user);
+    validateFieldsUser(user);
 
     const { username, password } = user;
 
-    const userAlreadyRegistered = await prisma.user.findFirst({
-      where: { username },
-    })
-    .catch((err) => {
-      err
-    });
+    const userRegistered = await userAlreadyRegistered.verifyForLogin(username);
 
-    if (!userAlreadyRegistered) throw { code: 401, message: 'Usuário não cadastrado' };
-
-    const { id, accountId, password: dbPassword } = userAlreadyRegistered;
+    const { id, accountId, password: dbPassword } = userRegistered;
 
     const matchPassword = compareHash(password, dbPassword);
 
@@ -74,10 +63,53 @@ export default class UserService {
   public getBalance = async (accountId: number): Promise<number> => {
     const accountByUser = await prisma.account.findUnique({
       where: { id: accountId }
+    })
+    .catch((err) => {
+      err
     });
 
     if(!accountByUser) throw { code: 401, message: 'Conta não encontrada' };
 
     return accountByUser.balance;
   };
+
+  public cashOut = async (debitedAccountId: number, creditedAccountId: number, value: number) => {
+    const balance = await this.getBalance(debitedAccountId);
+
+    if (balance >= value ) {
+      const updatedBalance = await prisma.account.update({
+        where: {
+          id: debitedAccountId,
+        },
+        data: {
+          balance: balance - value,
+        },
+      })
+      .catch((err) => {
+        err;
+      });
+
+      if (!updatedBalance) throw { code: 401, message: 'Não foi possível fazer a transferência' };
+
+      await this.cashIn(creditedAccountId, value);
+
+      return updatedBalance;
+    };
+
+    if ( balance < value || balance === 0) {
+      return { code: 401, message: 'Saldo insuficiente para efetuar transferência' };
+    };
+  };
+
+  protected cashIn = async (creditedAccountId: number, value: number) => {
+    const balance = await this.getBalance(creditedAccountId);
+
+    await prisma.account.update({
+      where: {id: creditedAccountId},
+      data: {
+        balance: balance + value,
+      },
+  });
+
+  }
 };
