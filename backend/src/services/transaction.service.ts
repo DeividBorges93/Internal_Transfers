@@ -1,9 +1,8 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Transaction } from '@prisma/client'
 import { Request } from 'express';
 import UserService from './user.service';
 import validateAuthorization from '../middlewares/authMiddleware';
 import { validateFieldsTransaction } from '../utils/validateFields';
-import userAlreadyRegistered from '../utils/userAlreadyRegistered';
 
 const prisma = new PrismaClient();
 
@@ -35,4 +34,32 @@ export default class TransactionService {
     });
     return transaction;
   };
-}
+
+  public getCashOut = async (authorization: string): Promise<Transaction[]> => {
+    const debitedUser = validateAuthorization(authorization);
+
+    const { accountId: debitedAccountId,  } = debitedUser;
+    
+    const cashOutTransactions = await prisma.transaction.findMany({
+      where: { debitedAccountId },
+      orderBy: [
+        { createdAt: 'desc' },
+      ],
+    });
+    return cashOutTransactions;
+  };
+
+  public getCashIn = async (authorization: string): Promise<Transaction[]> => {
+    const creditedUser = validateAuthorization(authorization);
+
+    const { accountId: creditedAccountId,  } = creditedUser;
+    
+    const cashOutTransactions = await prisma.transaction.findMany({
+      where: { creditedAccountId },
+      orderBy: [
+        { createdAt: 'desc' },
+      ],
+    })
+    return cashOutTransactions;
+  };
+};
