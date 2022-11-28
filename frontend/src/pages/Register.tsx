@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { FormEvent, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import IError from "../interfaces/IError";
 import { User } from '../schemas/schemas';
 import { validateFieldsUser } from '../utils/validateFields';
 
@@ -22,6 +21,7 @@ export default function Register() {
     axios.post(url, data)
     .then((response) => {
       if (response.status === 201) {
+        localStorage.setItem('username', JSON.stringify(data.username));
         navigate('/user/login');
         console.log('cadastrado com sucesso');
       };

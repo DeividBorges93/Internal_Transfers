@@ -1,5 +1,4 @@
 import { User, UserSchema, Transaction, TransactionSchema } from '../schemas/schemas';
-import IError from '../interfaces/IError';
 
 export const validateFieldsUser = (user: User) => {
   const validatedUser = UserSchema.safeParse(user);

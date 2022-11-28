@@ -1,7 +1,6 @@
 import axios from "axios";
-import React, { FormEvent, useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import IError from "../interfaces/IError";
 import { User } from '../schemas/schemas';
 import { validateFieldsUser } from '../utils/validateFields';
 
@@ -10,7 +9,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const url = 'http://localhost:3001/user/login';
-  
+
   const [errors, setErrors] = useState<IError>();
   
   const refUsername = useRef<HTMLInputElement>(null);
@@ -20,9 +19,7 @@ export default function Login() {
     axios.post(url, user)
       .then((response) => {
         if (response.status === 200) {
-          response.headers = {
-            Authorization: response.data
-          }
+          localStorage.setItem('token', JSON.stringify(response.data));
           navigate('/user/logged');
         }
       })
@@ -43,6 +40,7 @@ export default function Login() {
       if (hasError) {
         setErrors(hasError);
       };
+      localStorage.setItem('username', JSON.stringify(refUsername.current.value));
       login(user);
     };
   };
