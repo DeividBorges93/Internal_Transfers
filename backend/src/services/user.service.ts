@@ -76,6 +76,10 @@ export default class UserService {
   public cashOut = async (debitedAccountId: number, creditedAccountId: number, value: number) => {
     const balance = await this.getBalance(debitedAccountId);
 
+    if ( balance < value || balance === 0) {
+      throw { code: 401, message: 'Saldo insuficiente para efetuar transferência' };
+    };
+
     if (balance >= value ) {
       const updatedBalance = await prisma.account.update({
         where: {
@@ -96,9 +100,6 @@ export default class UserService {
       return updatedBalance;
     };
 
-    if ( balance < value || balance === 0) {
-      return { code: 401, message: 'Saldo insuficiente para efetuar transferência' };
-    };
   };
 
   protected cashIn = async (creditedAccountId: number, value: number) => {

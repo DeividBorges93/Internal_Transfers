@@ -1,5 +1,6 @@
 import 'express-async-errors';
 import express from 'express';
+import cors from 'cors';
 import { userRouter, transactionRouter } from '../routes';
 import errorMiddleware from '../middlewares/errorMiddleware';
 
@@ -19,7 +20,7 @@ class Api {
       res.header('Access-Control-Allow-Headers', '*');
       next();
     };
-
+    this.api.use(cors());
     this.api.use(express.json());
     this.api.use(accessControl);
 
