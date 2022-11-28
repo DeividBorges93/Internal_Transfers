@@ -1,13 +1,17 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import RowGenerate from "../components/RowExtracts";
 
 export default function Logged() {
   const navigate = useNavigate();
 
   const [balance, setBalance] = useState<number>();
-  const [cashOuts, setCashOut] = useState<cahsOutOrIn[]>();
-  const [cashIns, setCashIn] = useState<cahsOutOrIn[]>();
+  const [cashOuts, setCashOut] = useState<cahsOutOrIn[]>([]);
+  const [cashIns, setCashIn] = useState<cahsOutOrIn[]>([]);
+  const [extracts, setExtracts] = useState<cahsOutOrIn[]>([]);
+  const [sortExtracts, setSortExtracts] = useState<cahsOutOrIn[]>([]);
+
   // const [formatedDate, setFormatedDate] = useState<string>();
 
   const getBalanceURL = 'http://localhost:3001/user/balance';
@@ -21,20 +25,7 @@ export default function Logged() {
         setBalance(response.data);
       })
       .catch((err) => err);
-      
-    axios.get(getCashOutURL, { headers: { Authorization }})
-      .then((response) => {
-        setCashOut(response.data);
-      })
-      .catch((err) => err);
-
-    axios.get(getCashInURL, { headers: { Authorization }})
-      .then((response) => {
-        setCashIn(response.data);
-      })
-      .catch((err) => err);
-  }, [])
-
+  }, []);
 
   const token = localStorage.getItem('token');
   const Authorization = JSON.parse(token || '');
@@ -63,10 +54,71 @@ export default function Logged() {
       const transaction = {
         creditedAccountId: Number(refCreditedId.current.value),
         value: Number(refValueTransfer.current.value),
-      }
+      };
       sendTransfer(transaction);
     }
-  }
+  };
+
+  const generateExtract = async () => {
+    setCashOut([]);
+    setCashIn([]);
+    setSortExtracts([]);
+
+    const cashOutExtracts = await axios.get(getCashOutURL, { headers: { Authorization }})
+      .then((response) => response.data)
+      .catch((err) => err);
+
+    const cashInExtracts = await axios.get(getCashInURL, { headers: { Authorization }})
+      .then((response) => response.data)
+      .catch((err) => err);
+
+    setExtracts([...cashOutExtracts, ...cashInExtracts])
+  };
+
+  const generateExtractCashIn = async () => {
+    setCashOut([]);
+    setExtracts([]);
+    setSortExtracts([]);
+
+    await axios.get(getCashInURL, { headers: { Authorization }})
+      .then((response) => {
+        setCashIn(response.data);
+      })
+      .catch((err) => err);
+  };
+
+  const generateExtractCashOut = async () => {
+    setCashIn([]);
+    setExtracts([]);
+    setSortExtracts([]);
+
+    await axios.get(getCashOutURL, { headers: { Authorization }})
+      .then((response) => {
+        setCashOut(response.data);
+      })
+      .catch((err) => err);
+  };
+
+  const filterByDateOrder = async () => {
+    if (extracts.length > 0) {
+      const orderned = extracts.reverse();
+      setExtracts([]);
+      setSortExtracts(orderned)
+    };
+
+    if (cashIns.length > 0) {
+      const orderned = cashIns.reverse();
+      setCashIn([]);
+      setSortExtracts(orderned);
+    };
+
+    if (cashOuts.length > 0) {
+      const orderned = cashOuts.reverse();
+      setCashOut([]);
+      setSortExtracts(orderned)
+    };
+
+  };
 
   return (
     <div className="container">
@@ -105,9 +157,13 @@ export default function Logged() {
               </button>
             </form>
           </div>
-          <div className="cashout-container">
-            <h1>Saída de IT Ca$h</h1>
-            <table className="cashout-list">
+          <div className="extracts-container">
+            <h1>Relatório de transações IT Ca$h</h1>
+            <button id="change-order-btn" onClick={filterByDateOrder}>Ordem decrescente</button>
+            <button id="general-extract-btn" onClick={generateExtract}>Extrato geral</button>
+            <button id="cashin-extract-btn" onClick={generateExtractCashIn}>Extrato entradas</button>
+            <button id="cashout-extract-btn" onClick={generateExtractCashOut}>Extrato saídas</button>
+            <table id="cashout-list">
             <thead>
               <tr>
                 <th>ID</th>
@@ -117,20 +173,16 @@ export default function Logged() {
                 <th>Data da transação</th>
               </tr>
             </thead>
-            <tbody>
-            {cashOuts?.map(({ id, debitedAccountId, creditedAccountId, value, createdAt}, i) => (
-              <tr key={i}>
-                <td>{id}</td>
-                <td>{debitedAccountId}</td>
-                <td>{creditedAccountId}</td>
-                <td>{value}</td>
-                <td>{createdAt}</td>
-              </tr>
-            ))}
+            <tbody id="tbody-extract">
+            
+            {extracts.length >= 0 && extracts.map((extract) => RowGenerate(extract))}
+            {cashOuts.length >= 0 && cashOuts.map((extract) => RowGenerate(extract))}
+            {cashIns.length >= 0 && cashIns.map((extract) => RowGenerate(extract))}
+            {sortExtracts.length >= 0 && sortExtracts.map((extract) => RowGenerate(extract))}
             </tbody>
           </table>
           </div>
-          <div className="cashin-container">
+          {/* <div className="cashin-container">
             <h1>Entrada de IT Ca$h</h1>
             <table className="cashout-list">
               <thead>
@@ -154,7 +206,7 @@ export default function Logged() {
               ))}
               </tbody>
           </table>
-          </div>
+          </div> */}
       </div>
     </div>
   )
