@@ -3,6 +3,7 @@ import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { User } from '../schemas/schemas';
 import { validateFieldsUser } from '../utils/validateFields';
+import '../styles/login.css';
 
 
 export default function Login() {
@@ -48,9 +49,9 @@ export default function Login() {
   return (
     <div className="container">
       <div className="container-login">
-        <div className="warp-login">
+        <div className="wrap-login">
           <form className="form-login" onSubmit={getValues}>
-            {errors && <span className='error-message-register'>{errors.message}</span>}
+            {errors && <span className='error-message-login'>{errors.message}</span>}
 
             <h1 className="form-login-title">Faça o login</h1>
 
@@ -74,15 +75,17 @@ export default function Login() {
                 ref={refPassword}
               />
             </div>
+            <div className="container-login-form-btn">
             <button
               className='login-form-btn'
               type='submit'
             >
               Entrar
             </button>
-            <div className="text-nao-possui-conta">
+            </div>
+            <div className="text-ja-possui-conta">
             <span className="text">Não possui conta?</span>
-            <a href="/user/register" className="link-register-page">Fazer cadastro.</a>
+            <a href="/user/register" className="link-login-page">Fazer cadastro.</a>
           </div>
           </form>
         </div>

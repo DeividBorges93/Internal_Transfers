@@ -3,6 +3,7 @@ import React, { FormEvent, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { User } from '../schemas/schemas';
 import { validateFieldsUser } from '../utils/validateFields';
+import '../styles/register.css';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ export default function Register() {
             <div className="wrap-register-input">
               <input
                 type="text"
-                className='input-register'
+                className='register-input'
                 id="username"
                 name="name"
                 placeholder="Digite seu usuário"
@@ -68,7 +69,7 @@ export default function Register() {
             <div className="wrap-register-input">
               <input
                 type="password"
-                className='input-register'
+                className='register-input'
                 id="password"
                 name="name"
                 placeholder="Digite sua senha"
