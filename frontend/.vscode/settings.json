@@ -6,6 +6,10 @@
     "react",
     "pages",
     "components",
-    
+    "routes",
+    "package",
+    "user",
+    "type",
+    "assets"
   ],
 }
