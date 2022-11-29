@@ -3,6 +3,7 @@ import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { User } from '../schemas/schemas';
 import { validateFieldsLoginUser } from '../utils/validateFields';
+import logoPage from '../assets/logoPage.png';
 import '../styles/login.css';
 
 
@@ -28,7 +29,6 @@ export default function Login() {
         console.log(error, 'catch');
       });
   };
-console.log(errors, 'errors');
 
   const getValues = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,7 +57,9 @@ console.log(errors, 'errors');
             {errors && <span className='error-message-login'>{errors.message}</span>}
 
             <h1 className="form-login-title">Faça o login</h1>
-
+            <div className="image-logo">
+              <img src={logoPage} alt="logo da paǵina"/>
+            </div>
             <div className="wrap-login-input">
               <input
                 type="text"

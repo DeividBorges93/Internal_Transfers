@@ -3,6 +3,7 @@ import React, { FormEvent, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { User } from '../schemas/schemas';
 import { validateFieldsUser } from '../utils/validateFields';
+import logoPage from '../assets/logoPage.png';
 import '../styles/register.css';
 
 export default function Register() {
@@ -56,6 +57,9 @@ export default function Register() {
           <form className="form-register" onSubmit={ addUser }>
             {errors && <span className='error-message-register'>{errors.message}</span>}
             <h1 className='form-register-title'>Cadastro de usuário</h1>
+            <div className="image-logo">
+              <img src={logoPage} alt="logo da paǵina"/>
+            </div>
             <div className="wrap-register-input">
               <input
                 type="text"
