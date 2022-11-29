@@ -20,16 +20,16 @@ export default function Logged() {
   const getCashInURL = 'http://localhost:3001/transactions/credited';
   const sendTransferURL = 'http://localhost:3001/transaction';
   
+  const token = localStorage.getItem('token');
+  const Authorization = JSON.parse(token || '');
+
   useEffect(() => {
     axios.get(getBalanceURL, { headers: { Authorization }})
       .then((response) => {
         setBalance(response.data);
       })
       .catch((err) => err);
-  }, []);
-
-  const token = localStorage.getItem('token');
-  const Authorization = JSON.parse(token || '');
+  }, [Authorization]);
 
   const username = JSON.parse(localStorage.getItem('username') || '');
 
