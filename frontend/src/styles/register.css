@@ -50,6 +50,11 @@
   text-align: center;
 }
 
+.error-message-register {
+  display: block;
+  text-align: center;
+}
+
 .wrap-register-input {
   width: 100%;
   position: relative;

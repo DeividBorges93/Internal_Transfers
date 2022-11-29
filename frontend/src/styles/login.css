@@ -49,6 +49,11 @@
   text-align: center;
 }
 
+.error-message-login {
+  display: block;
+  text-align: center;
+}
+
 .wrap-login-input {
   width: 100%;
   position: relative;

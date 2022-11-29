@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background-color: #2f1267;
+  background-color: #a388db;
 }
 
 .header-logged {
@@ -62,7 +62,7 @@
 .header-center {
   padding: 10px;
   border-radius: 5px;
-  background-color: #4b2494;
+  background-color: #a17fe0;
 }
 
 .transaction-title {
@@ -154,27 +154,29 @@
 }
 
 #extract-list th {
-  background-color: #8c078c;
+  background-color: #b75eb7;
   text-align: center;
   text-transform: uppercase;
   padding: 10px 10px 10px 10px;
 }
 
 #extract-list td {
-  color: #e9e2eb95;
+  color: #000;
   padding-right: 10px;
   padding-left: 10px;
 
 }
 
 #extract-list tr {
+  padding: 5px 5px 5px 5px;
+  background-color: #6d7989;
   text-align: center;
 }
 
 #extract-list tr:nth-child(even) {
-  background: #3f0f99;
+  background: #4c5e75;
 }
 
 #extract-list tr:hover {
-  background: #5c11e7;
+  background: #62700c;
 }
