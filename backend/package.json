@@ -1,4 +1,5 @@
 {
+  "main": "dist/src/api/server.js",
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
