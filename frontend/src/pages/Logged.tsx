@@ -126,7 +126,7 @@ export default function Logged() {
       <div className="container-logged">
         <header className="header-logged">
           <div className="header-left">
-            <span className="actual-balance">{`Saldo atual R$ ${balance}`}</span>
+            <span className="actual-balance">{`Saldo atual IT$ ${balance}`}</span>
           </div>
           <div className="header-center">
             <h1 className="transaction-title">Transferência</h1>

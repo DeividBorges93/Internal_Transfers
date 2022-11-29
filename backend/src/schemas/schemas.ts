@@ -26,6 +26,11 @@ export const UserSchema = z.object({
 
 export type User = z.infer<typeof UserSchema>;
 
+export const UserLoginSchema = z.object({
+  username: z.string({ required_error: 'Username é obrigatório' }),
+  password: z.string({ required_error: 'Password é obrigatório'})
+});
+
 export const TransactionSchema = z.object({
   creditedAccountId: z.number({ required_error: 'CreditedAccountId é obrigatório' }),
   value: z.number({ required_error: 'Value é obrigatório' }),

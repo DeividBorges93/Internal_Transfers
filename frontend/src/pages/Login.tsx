@@ -2,7 +2,7 @@ import axios from "axios";
 import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { User } from '../schemas/schemas';
-import { validateFieldsUser } from '../utils/validateFields';
+import { validateFieldsLoginUser } from '../utils/validateFields';
 import '../styles/login.css';
 
 
@@ -17,15 +17,18 @@ export default function Login() {
   const refPassword = useRef<HTMLInputElement>(null);
 
   const login = async (user: User) => {
-    axios.post(url, user)
+    await axios.post(url, user)
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('token', JSON.stringify(response.data));
           navigate('/user/logged');
-        }
+        };
       })
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => {
+        console.log(error, 'catch');
+      });
   };
+console.log(errors, 'errors');
 
   const getValues = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,7 +39,7 @@ export default function Login() {
         password: refPassword.current.value,
       };
 
-      const hasError = validateFieldsUser(user);
+      const hasError = validateFieldsLoginUser(user);
 
       if (hasError) {
         setErrors(hasError);
