@@ -24,6 +24,11 @@ export const UserSchema = z.object({
       .regex(regexneedAUpCase, { message: messages.oneUpCase }),
   });
 
+export const UserLoginSchema = z.object({
+  username: z.string({ required_error: 'Username é obrigatório' }),
+  password: z.string({ required_error: 'Password é obrigatório'})
+});
+
 export type User = z.infer<typeof UserSchema>;
 
 export const TransactionSchema = z.object({

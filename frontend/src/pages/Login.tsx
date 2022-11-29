@@ -2,7 +2,9 @@ import axios from "axios";
 import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { User } from '../schemas/schemas';
-import { validateFieldsUser } from '../utils/validateFields';
+import { validateFieldsLoginUser } from '../utils/validateFields';
+import logoPage from '../assets/logoPage.png';
+import '../styles/login.css';
 
 
 export default function Login() {
@@ -16,14 +18,16 @@ export default function Login() {
   const refPassword = useRef<HTMLInputElement>(null);
 
   const login = async (user: User) => {
-    axios.post(url, user)
+    await axios.post(url, user)
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('token', JSON.stringify(response.data));
           navigate('/user/logged');
-        }
+        };
       })
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => {
+        console.log(error, 'catch');
+      });
   };
 
   const getValues = async (event: FormEvent<HTMLFormElement>) => {
@@ -35,7 +39,7 @@ export default function Login() {
         password: refPassword.current.value,
       };
 
-      const hasError = validateFieldsUser(user);
+      const hasError = validateFieldsLoginUser(user);
 
       if (hasError) {
         setErrors(hasError);
@@ -48,12 +52,14 @@ export default function Login() {
   return (
     <div className="container">
       <div className="container-login">
-        <div className="warp-login">
+        <div className="wrap-login">
           <form className="form-login" onSubmit={getValues}>
-            {errors && <span className='error-message-register'>{errors.message}</span>}
+            {errors && <span className='error-message-login'>{errors.message}</span>}
 
             <h1 className="form-login-title">Faça o login</h1>
-
+            <div className="image-logo">
+              <img src={logoPage} alt="logo da paǵina"/>
+            </div>
             <div className="wrap-login-input">
               <input
                 type="text"
@@ -74,15 +80,17 @@ export default function Login() {
                 ref={refPassword}
               />
             </div>
+            <div className="container-login-form-btn">
             <button
               className='login-form-btn'
               type='submit'
             >
               Entrar
             </button>
-            <div className="text-nao-possui-conta">
+            </div>
+            <div className="text-ja-possui-conta">
             <span className="text">Não possui conta?</span>
-            <a href="/user/register" className="link-register-page">Fazer cadastro.</a>
+            <a href="/user/register" className="link-login-page">Fazer cadastro.</a>
           </div>
           </form>
         </div>

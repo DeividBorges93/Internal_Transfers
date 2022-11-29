@@ -4,7 +4,7 @@ import IError from '../interfaces/IError';
 import { User } from '../schemas/schemas';
 import Jwt from '../utils/tokenGenerator';
 import { hash, compareHash} from '../utils/hashPassword';
-import { validateFieldsUser } from '../utils/validateFields';
+import { validateFieldsUser, validateFieldsLoginUser } from '../utils/validateFields';
 import UserAlreadyRegistered from '../utils/userAlreadyRegistered';
 import IUser from '../interfaces/IUser';
 
@@ -43,11 +43,11 @@ export default class UserService {
   };
 
   public login = async (user: User): Promise<IToken> => {
-    validateFieldsUser(user);
-
     const { username, password } = user;
-
+    
     const userRegistered = await userAlreadyRegistered.verifyForLogin(username);
+    
+    validateFieldsLoginUser(user);
 
     const { id, accountId, password: dbPassword } = userRegistered;
 

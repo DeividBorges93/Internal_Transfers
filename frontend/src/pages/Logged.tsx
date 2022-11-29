@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import RowGenerate from "../components/RowExtracts";
+import '../styles/logged.css';
 
 export default function Logged() {
   const navigate = useNavigate();
@@ -124,89 +125,78 @@ export default function Logged() {
     <div className="container">
       <div className="container-logged">
         <header className="header-logged">
-          <div className="actual-balance">
-            <span className="balance">{`Saldo atual R$ ${balance}`}</span>
+          <div className="header-left">
+            <span className="actual-balance">{`Saldo atual IT$ ${balance}`}</span>
           </div>
-          <div className="actual-username">
-            <span className="username">{`Logado com ${username}`}</span>
-          </div>
-          <button className="logout-btn" onClick={ logout }>Sair</button>
-        </header>
-          <div className="transaction">
-            <h1>Transferência</h1>
+          <div className="header-center">
+            <h1 className="transaction-title">Transferência</h1>
             <form className="transaction-form" onSubmit={ getValues }>
-              <input className="input debited-account-id"
-                type="text"
-                value={username}
-                readOnly
-              />
-              <input className="input credited-account-id"
-                type="number"
-                ref={refCreditedId}
-                placeholder="ID que receberá o saldo"
-              />
-              <input className="input value-transfer"
-                type="number"
-                ref={refValueTransfer}
-                placeholder="Valor da transferência"
-              />
-              <button className="enviar-transferencia"
+              <div className="wrap-transaction-input">
+                <input className="input-transaction debited-account-id"
+                  type="text"
+                  value={username}
+                  readOnly
+                />
+              </div>
+              <div className="wrap-transaction-input">
+                <input className="input-transaction credited-account-id"
+                  type="number"
+                  ref={refCreditedId}
+                  placeholder="ID que receberá o saldo"
+                />
+              </div>
+              <div className="wrap-transaction-input">
+                <input className="input-transaction value-transfer"
+                  type="number"
+                  ref={refValueTransfer}
+                  placeholder="Valor da transferência"
+                />
+              </div>
+              <button className="send-tranfer-btn"
                 type="submit"
               >
                 Transferir
               </button>
             </form>
           </div>
-          <div className="extracts-container">
-            <h1>Relatório de transações IT Ca$h</h1>
-            <button id="change-order-btn" onClick={filterByDateOrder}>Ordem decrescente</button>
-            <button id="general-extract-btn" onClick={generateExtract}>Extrato geral</button>
-            <button id="cashin-extract-btn" onClick={generateExtractCashIn}>Extrato entradas</button>
-            <button id="cashout-extract-btn" onClick={generateExtractCashOut}>Extrato saídas</button>
-            <table id="cashout-list">
+          <div className="header-right">
+            <div className="actual-username">
+              <span className="username">{`Logado com ${username}`}</span>
+            </div>
+            <button className="logout-btn" onClick={ logout }>Sair</button>
+          </div>
+        </header>
+        <div className="extracts-container">
+          <h1 className="extract-title">Relatório de transações IT Ca$h</h1>
+            <div className="extract-btn">
+              <button id="change-order-btn" onClick={filterByDateOrder}>Ordem crescente</button>
+              <button id="general-extract-btn" onClick={generateExtract}>Extrato geral</button>
+              <button id="cashin-extract-btn" onClick={generateExtractCashIn}>Extrato entradas</button>
+              <button id="cashout-extract-btn" onClick={generateExtractCashOut}>Extrato saídas</button>
+            </div>
+          <div className="table-extracts">
+            <table id="extract-list">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Conta debitada</th>
                 <th>Conta creditada</th>
                 <th>Valor da transação</th>
-                <th>Data da transação</th>
+                <th>Data</th>
+                <th>Hora</th>
+
               </tr>
             </thead>
             <tbody id="tbody-extract">
             
             {extracts.length >= 0 && extracts.map((extract) => RowGenerate(extract))}
-            {cashOuts.length >= 0 && cashOuts.map((extract) => RowGenerate(extract))}
-            {cashIns.length >= 0 && cashIns.map((extract) => RowGenerate(extract))}
-            {sortExtracts.length >= 0 && sortExtracts.map((extract) => RowGenerate(extract))}
+            {cashOuts.length >= 0 && cashOuts.map((cashout) => RowGenerate(cashout))}
+            {cashIns.length >= 0 && cashIns.map((cashin) => RowGenerate(cashin))}
+            {sortExtracts.length >= 0 && sortExtracts.map((sortExtract) => RowGenerate(sortExtract))}
             </tbody>
           </table>
           </div>
-          {/* <div className="cashin-container">
-            <h1>Entrada de IT Ca$h</h1>
-            <table className="cashout-list">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Conta debitada</th>
-                  <th>Conta creditada</th>
-                  <th>Valor da transação</th>
-                  <th>Data da transação</th>
-                </tr>
-              </thead>
-              <tbody>
-              {cashIns?.map(({ id, debitedAccountId, creditedAccountId, value, createdAt}, i) => (
-                <tr key={i}>
-                  <td>{id}</td>
-                  <td>{debitedAccountId}</td>
-                  <td>{creditedAccountId}</td>
-                  <td>{value}</td>
-                  <td>{createdAt}</td>
-                </tr>
-              ))}
-              </tbody>
-          </table>
-          </div> */}
+        </div>
       </div>
     </div>
   )

@@ -1,3 +1,5 @@
+declare module "*.png"
+
 interface IError {
   code: number;
   message: string;
