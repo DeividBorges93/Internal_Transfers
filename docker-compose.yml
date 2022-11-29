@@ -5,20 +5,20 @@ services:
     container_name: postgres
     hostname: postgres
     ports:
-    - '5432:5432'
+      - '5432:5432'
     environment:
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=12345678
-    - POSTGRES_DB=db_internal_transfers
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=db_internal_transfers
     restart: unless-stopped
 
   prisma:
     image: prismagraphql/prisma:1.3.x
     build: backend/prisma
     restart: always
-    depends_on: 
+    depends_on:
       - postgres
-      
+
     ports:
       - '4466:4466'
     environment:
@@ -37,17 +37,17 @@ services:
 
   backend:
     links:
-    - postgres
+      - postgres
     depends_on:
-    - postgres
-    - prisma
+      - postgres
+      - prisma
     container_name: backend
     ports:
       - 3001:3001
     build: backend
     restart: on-failure
     environment:
-    - DB_HOST=postgres
+      - DB_HOST=postgres
     volumes:
       - ./backend:/internal_transfers/backend
       - ./backend:/internal_transfers/backend/node_modules
@@ -56,14 +56,10 @@ services:
     container_name: frontend
     build: frontend
     ports:
-    - 3000:3000
+      - 3000:3000
     restart: on-failure
     depends_on:
-    - backend
+      - backend
     volumes:
       - ./frontend:/internal_transfers/frontend
       - ./frontend:/internal_transfers/frontend/node_modules
-volumes:
-  frontend:
-  backend:
-  postgres-data:
