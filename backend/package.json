@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "node .",
-    "dev": "tsnd ./src/api/api.ts",
+    "dev": "nodemon --watch \"src/**\" src/api/server.ts",
     "build": "tsc"
   },
   "dependencies": {
