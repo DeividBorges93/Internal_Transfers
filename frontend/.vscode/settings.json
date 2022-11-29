@@ -10,6 +10,8 @@
     "package",
     "user",
     "type",
-    "assets"
+    "assets",
+    "styles",
+    "readme"
   ],
 }
