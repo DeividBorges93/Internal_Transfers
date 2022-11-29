@@ -16,14 +16,14 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background-color: #a388db;
+  background-color: #8f879c;
 }
 
 .header-logged {
   display: flex;
   align-items: center;
   justify-content:  space-between;
-  background-color: #120a21;
+  background-color: #085D24;
   padding: 20px;
   position: fixed;
   width: 100%;
@@ -36,11 +36,11 @@
 }
 
 .header-logged span {
-  background-color: #3f0f99;
+  background-color: #0F8213;
   margin-right: 10px;
   padding: 10px;
   border-radius: 5px;
-  color: #d88fea95;
+  color: #0d041d;
   font-weight: bold
 }
 
@@ -61,8 +61,9 @@
 
 .header-center {
   padding: 10px;
+  border: #0F8213 3px solid;
   border-radius: 5px;
-  background-color: #a17fe0;
+  background-color: #8f879c;
 }
 
 .transaction-title {
@@ -140,6 +141,12 @@
   font-weight: bold
 }
 
+.extract-btn button:hover{
+  background-color: #5e13e9;
+  cursor: pointer;
+  color: #2f1267;
+}
+
 .table-extracts {
   display: flex;
   margin-top: 15px;
@@ -149,12 +156,12 @@
 
 #extract-list {
   border-collapse: collapse;
-  border: solid #ff00ff 1px;
+  border: solid #0F8213 1px;
   width: auto;
 }
 
 #extract-list th {
-  background-color: #b75eb7;
+  background-color: #085D24;
   text-align: center;
   text-transform: uppercase;
   padding: 10px 10px 10px 10px;

@@ -24,7 +24,7 @@
   background-color: #2f1267;
 }
 .wrap-login {
-  background-color: #501db0;
+  background-color: #8f879c;
   width: 40%;
   border-radius: 10px;
   border: #4807c0 inset 4.5px ;
@@ -49,6 +49,17 @@
   text-align: center;
 }
 
+.image-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.image-logo img {
+  width: 180px;
+  border-radius: 20%;
+}
+
 .error-message-login {
   display: block;
   text-align: center;
@@ -58,12 +69,12 @@
   width: 100%;
   position: relative;
   border-bottom: 1px solid #130232;
-  margin-bottom: 37px;
+  margin-bottom: 15px;
 }
 
 .input-login:-webkit-autofill {
-  box-shadow: 0 0 0 30px #501db0 inset;
-  -webkit-box-shadow: 0 0 0 30px #501db0 inset;
+  box-shadow: 0 0 0 30px #8f879c inset;
+  -webkit-box-shadow: 0 0 0 30px #8f879c inset;
   -webkit-text-fill-color: #130232 !important;
 }
 
@@ -111,9 +122,12 @@
 }
 
 .login-form-btn:hover {
-  background-image: linear-gradient(to left,#ff00ff 10%, #7431f4 70%, #7431f4 30%);
+  background: #FF00FF;
+  background: -moz-radial-gradient(center, #FF00FF 0%, #0F8213 65%, #085D24 100%);
+  background: -webkit-radial-gradient(center, #FF00FF 0%, #0F8213 65%, #085D24 100%);
+  background: radial-gradient(ellipse at center, #FF00FF 0%, #0F8213 65%, #085D24 100%);
   background-size: auto 200%;
-  box-shadow: 0 0 10px 10px #3a2167;
+  box-shadow: 0 0 60px 10px #FF00FF;
   color: #000000;
   cursor: pointer;
 }
