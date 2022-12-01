@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { User } from '../schemas/schemas';
 import { validateFieldsLoginUser } from '../utils/validateFields';
 import logoPage from '../assets/logoPage.png';
+import '../styles/global.css';
 import '../styles/login.css';
 
 
@@ -89,8 +90,8 @@ export default function Login() {
             </button>
             </div>
             <div className="text-ja-possui-conta">
-            <span className="text">Não possui conta?</span>
-            <a href="/user/register" className="link-login-page">Fazer cadastro.</a>
+            <span className="text-login">Não possui conta?</span>
+            <a href="/user/register" className="link-register-page">Fazer cadastro.</a>
           </div>
           </form>
         </div>

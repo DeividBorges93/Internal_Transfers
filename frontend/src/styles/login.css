@@ -1,15 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Montserrat",sans-serif;
-}
-
-.container {
-  width: 100%;
-  margin: 0 auto;
-}
-
 .container-login {
   width: 100%;
   min-height: 100vh;
@@ -49,16 +37,7 @@
   text-align: center;
 }
 
-.image-logo {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 25px;
-}
 
-.image-logo img {
-  width: 180px;
-  border-radius: 20%;
-}
 
 .error-message-login {
   display: block;
@@ -139,7 +118,7 @@
   margin-top: 20px;
 }
 
-.text {
+.text-login {
   font-size: 24px;
   color: #eec4f995;
   line-height: 1.5;
@@ -147,7 +126,7 @@
   text-decoration: none;
 }
 
-.link-login-page {
+.link-register-page {
   font-size: 24px;
   color: #130232;
   line-height: 1.5;
