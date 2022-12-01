@@ -9,6 +9,7 @@
     "routes",
     "docker",
     "migration",
-    "package"
+    "package",
+    "pages"
   ]
 }
