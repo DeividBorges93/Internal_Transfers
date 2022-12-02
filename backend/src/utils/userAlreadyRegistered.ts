@@ -12,7 +12,7 @@ export default class userAlreadyRegistered {
       err
     });
 
-    if (!userAlreadyRegistered) throw { code: 401, message: 'Usuário não cadastrado' };
+    if (!userAlreadyRegistered) throw { code: 401, message: 'Erro: Usuário não cadastrado' };
 
     return userAlreadyRegistered;
   };
@@ -25,6 +25,6 @@ export default class userAlreadyRegistered {
       err
     });
 
-    if (userAlreadyRegistered) throw { code: 400, message: 'Usuário já existe' };
+    if (userAlreadyRegistered) throw { code: 400, message: 'Erro: Usuário já existe' };
   };
 };

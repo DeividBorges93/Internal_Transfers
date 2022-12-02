@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import RowGenerate from "../components/RowExtracts";
+import '../styles/global.css';
 import '../styles/logged.css';
 
 export default function Logged() {
