@@ -85,7 +85,7 @@ export default function Register() {
                 className='register-input'
                 id="password"
                 name="name"
-                onChange={() => checkValues()}
+                onChange={checkValues}
                 placeholder="Digite sua senha"
                 ref={refPassword}
               />
@@ -95,7 +95,7 @@ export default function Register() {
                 id='register-form-btn'
                 type='submit'
               >
-                Finalizar
+                Cadastrar
               </button>
             </div>
             <div className="text-ja-possui-conta">
