@@ -3,7 +3,7 @@ import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { User } from '../schemas/schemas';
 import { validateFieldsLoginUser } from '../utils/validateFields';
-import logoPage from '../assets/logoPage.png';
+import '../styles/global.css';
 import '../styles/login.css';
 
 
@@ -16,6 +16,19 @@ export default function Login() {
   
   const refUsername = useRef<HTMLInputElement>(null);
   const refPassword = useRef<HTMLInputElement>(null);
+
+  const checkValues = async () => {
+    const submitBtn = document.getElementById('login-form-btn') as HTMLButtonElement;
+    const inputUsername = document.getElementById('username') as HTMLInputElement;
+    const inputPassword = document.getElementById('password') as HTMLInputElement;
+
+    const { value: username } = inputUsername;
+    const { value: password } = inputPassword;    
+
+    password.length >= 8 && username.length >= 3 &&
+    password !== null && username !== null &&
+    password !== '' && username !== '' ? submitBtn.disabled = false : submitBtn.disabled = true;
+  }
 
   const login = async (user: User) => {
     await axios.post(url, user)
@@ -56,16 +69,14 @@ export default function Login() {
           <form className="form-login" onSubmit={getValues}>
             {errors && <span className='error-message-login'>{errors.message}</span>}
 
-            <h1 className="form-login-title">Faça o login</h1>
-            <div className="image-logo">
-              <img src={logoPage} alt="logo da paǵina"/>
-            </div>
+            <h1 className="form-login-title">Fazer o login</h1>
             <div className="wrap-login-input">
               <input
                 type="text"
-                className= 'input-login'
+                className= 'login-input'
                 id="username"
                 name="username"
+                onChange={checkValues}
                 placeholder="Digite seu usuário"
                 ref={refUsername}
               />
@@ -73,24 +84,27 @@ export default function Login() {
             <div className="wrap-login-input">
               <input
                 type="password"
-                className='input-login'
+                className='login-input'
                 id="password"
                 name="name"
+                onChange={checkValues}
                 placeholder="Digite sua senha"
                 ref={refPassword}
               />
             </div>
             <div className="container-login-form-btn">
             <button
-              className='login-form-btn'
+              id='login-form-btn'
               type='submit'
             >
               Entrar
             </button>
             </div>
-            <div className="text-ja-possui-conta">
-            <span className="text">Não possui conta?</span>
-            <a href="/user/register" className="link-login-page">Fazer cadastro.</a>
+            <div className="text-nao-possui-conta">
+              <span className="text-login">Não possui conta?</span>
+              <div className="container-link-register">
+                <a href="/user/register" className="link-register-page">Cadastre-se.</a>
+              </div>
           </div>
           </form>
         </div>
