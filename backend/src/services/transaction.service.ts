@@ -35,6 +35,26 @@ export default class TransactionService {
     return transaction;
   };
 
+  public getTransactions = async (authorization: string): Promise<Transaction[]> => {
+    const user = validateAuthorization(authorization);
+
+    const { accountId  } = user;
+
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        OR: [
+          {
+            debitedAccountId: accountId,
+          },
+          {
+            creditedAccountId: accountId,
+          }
+        ],
+      },
+    });
+    return transactions
+  };
+
   public getCashOut = async (authorization: string): Promise<Transaction[]> => {
     const debitedUser = validateAuthorization(authorization);
 
