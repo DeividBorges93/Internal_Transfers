@@ -9,5 +9,7 @@ router.post('/user/register', userController.register);
 router.post('/user/login', userController.login);
 
 router.get('/user/balance', userController.getBalance);
+router.get('/user/info', userController.getUserAndTransactionsInfo);
+router.get('/user/credit', userController.getCredUsername);
 
 export default router;

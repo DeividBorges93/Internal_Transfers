@@ -20,6 +20,19 @@ export default class UserController {
     return res.status(200).json(token);
   };
 
+  public getUserAndTransactionsInfo = async (req: Request, res: Response, next: NextFunction) => {
+    
+    const { authorization } = req.headers;
+
+    if (!authorization) throw { code: 401, message: 'Token inválido'};
+    
+    const { accountId } = authMiddleware(authorization);
+
+    const userInfo = await this.userService.getUserAndTransactionsInfo(accountId);
+
+    return res.status(200).json(userInfo);
+  };
+
   public getBalance = async (req: Request, res: Response, next: NextFunction) => {
     
     const { authorization } = req.headers;
@@ -32,4 +45,13 @@ export default class UserController {
 
     return res.status(200).json(balance);
   };
+
+  public getCredUsername = async (req: Request, res: Response, next: NextFunction) => {
+    const { authorization, creditaccid: creditAccId } = req.headers;
+    
+    if (!authorization) throw { code: 401, message: 'Token inválido'};
+
+    const user = await this.userService.getCredUsername(Number(creditAccId));
+
+    return res.status(200).json(user)};
 }
