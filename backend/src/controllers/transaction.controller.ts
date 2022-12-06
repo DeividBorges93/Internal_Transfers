@@ -10,6 +10,17 @@ export default class TransactionController {
     return res.status(200).json(transaction);
   };
 
+  public getTransactions = async (req: Request, res: Response, next: NextFunction) => {
+    const { authorization } = req.headers;
+
+    if (!authorization) throw { code: 401, message: 'Token inválido'};
+
+    const transactions = await this.transactionService.getTransactions(authorization);
+
+    return res.status(200).json(transactions);
+  }
+
+
   public getCashOut = async (req: Request, res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
 

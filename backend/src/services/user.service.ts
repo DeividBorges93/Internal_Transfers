@@ -1,12 +1,13 @@
-import { PrismaClient } from '@prisma/client'
-import IToken from '../interfaces/IToken';
-import IError from '../interfaces/IError';
-import { User } from '../schemas/schemas';
-import Jwt from '../utils/tokenGenerator';
+import { Account, PrismaClient } from '@prisma/client'
 import { hash, compareHash} from '../utils/hashPassword';
 import { validateFieldsUser, validateFieldsLoginUser } from '../utils/validateFields';
+import { User } from '../schemas/schemas';
 import UserAlreadyRegistered from '../utils/userAlreadyRegistered';
+import IToken from '../interfaces/IToken';
+import IError from '../interfaces/IError';
 import IUser from '../interfaces/IUser';
+import Jwt from '../utils/tokenGenerator';
+import { Request } from 'express-serve-static-core';
 
 const prisma = new PrismaClient();
 const userAlreadyRegistered = new UserAlreadyRegistered();
@@ -65,7 +66,7 @@ export default class UserService {
       where: { id: accountId }
     })
     .catch((err) => {
-      err
+      console.log(err);
     });
 
     if(!accountByUser) throw { code: 401, message: 'Conta não encontrada' };
@@ -73,13 +74,53 @@ export default class UserService {
     return accountByUser.balance;
   };
 
-  public cashOut = async (debitedAccountId: number, creditedAccountId: number, value: number) => {
+
+  public getCredUsername = async (creditAccId: number): Promise<IUser> => {
+    const user = await prisma.user.findUnique({
+      where: { 
+        accountId: creditAccId,
+      },
+      select: {
+        id: true,
+        username: true,
+        accountId: true,
+      }
+    });
+    return user as IUser;
+  };
+
+  // public exclude = (user: IUser, keys: Key[]): Promise<Omit<IUser, Key>> => {
+  //   for (let key of keys) {
+  //     delete user[key]
+  //   }
+  //   return user
+  // }
+
+  public getUserAndTransactionsInfo = async (accountId: number) => {
+    const user = await prisma.user.findUnique({
+      where: { 
+        accountId
+      },
+      select: {
+        id: true,
+        username: true,
+        accountId: true,
+        account: {
+          include: {
+            debitedTransactions: true,
+            creditedTransactions: true
+          }
+        },
+      }
+    });
+    return user;
+  };
+
+  public cashOut = async (debitedAccountId: number, creditedAccountId: number, value: number): Promise<Account | undefined> => {
     const balance = await this.getBalance(debitedAccountId);
 
-    if ( balance < value || balance === 0) {
-      throw { code: 401, message: 'Saldo insuficiente para efetuar transferência' };
-    };
-
+    if (balance === 0 || balance < value) throw { code: 401, message: 'Saldo insuficiente para efetuar transferência' }
+    
     if (balance >= value ) {
       const updatedBalance = await prisma.account.update({
         where: {
@@ -90,9 +131,9 @@ export default class UserService {
         },
       })
       .catch((err) => {
-        err;
+        console.log(err);
       });
-
+      
       if (!updatedBalance) throw { code: 401, message: 'Não foi possível fazer a transferência' };
 
       await this.cashIn(creditedAccountId, value);
@@ -104,7 +145,6 @@ export default class UserService {
 
   protected cashIn = async (creditedAccountId: number, value: number) => {
     const balance = await this.getBalance(creditedAccountId);
-
     await prisma.account.update({
       where: {id: creditedAccountId},
       data: {

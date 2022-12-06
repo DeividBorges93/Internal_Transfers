@@ -25,17 +25,18 @@ class Api {
     this.api.use(express.json());
     this.api.use(accessControl);
 
-    this.api.use(errorMiddleware);
   }
-
+  
   private routes(): void {
     this.api.get(
       '/ping',
       (_res: Request, res: Response) => res.status(200).json({ data: 'Pong' })
-    );
-
-    this.api.use(userRouter);
-    this.api.use(transactionRouter);
+      );
+      
+      this.api.use(userRouter);
+      this.api.use(transactionRouter);
+      
+      this.api.use(errorMiddleware);
   }
 
   public start(PORT: string | number):void {
