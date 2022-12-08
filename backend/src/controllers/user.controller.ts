@@ -54,4 +54,14 @@ export default class UserController {
     const user = await this.userService.getCredUsername(Number(creditAccId));
 
     return res.status(200).json(user)};
+
+  public getDebitUsername = async (req: Request, res: Response, next: NextFunction) => {
+    const { authorization, debitaccid: debitAccId } = req.headers;
+    
+    if (!authorization) throw { code: 401, message: 'Token inválido'};
+
+    const user = await this.userService.getDebitUsername(Number(debitAccId));
+
+    return res.status(200).json(user)};
 }
+

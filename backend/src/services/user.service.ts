@@ -89,6 +89,20 @@ export default class UserService {
     return user as IUser;
   };
 
+  public getDebitUsername = async (debitAccId: number): Promise<IUser> => {
+    const user = await prisma.user.findUnique({
+      where: { 
+        accountId: debitAccId,
+      },
+      select: {
+        id: true,
+        username: true,
+        accountId: true,
+      }
+    });
+    return user as IUser;
+  };
+
   // public exclude = (user: IUser, keys: Key[]): Promise<Omit<IUser, Key>> => {
   //   for (let key of keys) {
   //     delete user[key]
