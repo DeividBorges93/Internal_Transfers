@@ -11,42 +11,68 @@ export default function Logged() {
   const refCreditedId = useRef<HTMLInputElement>(null);
   const refValueTransfer = useRef<HTMLInputElement>(null);
 
-  const [user, setUser] = useState<UserAllFields>();
   const [extracts, setExtracts] = useState<Transaction[]>([]);
 
-  const [cashOuts, setCashOut] = useState<Transaction[]>([]);
-  const [cashIns, setCashIn] = useState<Transaction[]>([]);
-  const [sortExtracts, setSortExtracts] = useState<Transaction[]>([]);
-
-  // const [formatedDate, setFormatedDate] = useState<string>();
+  const [user, setUser] = useState<UserAllFields>();
+  const [btnName, setBtnName] = useState<string>('crescente');
 
   const getUserInfoURL = 'http://localhost:3001/user/info';
-  const getTransactionsURL = 'http://localhost:3001/transactions/';
-  // const getCashOutURL = 'http://localhost:3001/transactions/debited';
-  // const getCashInURL = 'http://localhost:3001/transactions/credited';
   const sendTransferURL = 'http://localhost:3001/transaction';
-  
+
   const token = localStorage.getItem('token');
   const Authorization = JSON.parse(token || '');
 
   useEffect(() => {
     axios.get(getUserInfoURL, { headers: { Authorization }})
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((err) => err);
+    .then((response) => {
+      setUser(response.data);
+    })
+    .catch((err) => console.log(err)
+    );
   }, []);
 
-
+  const changeOrder = async (extracts: Transaction[]) => {
+    if (btnName === 'crescente') {
+      const sortedExtracts = extracts.sort((item1, item2) => {
+        if (item1.createdAt > item2.createdAt) {
+          return 1;
+        }
+  
+        if (item1.createdAt < item2.createdAt) {
+          return -1;
+        }
+  
+        return 0;
+      });
+      setBtnName('decrescente');
+      return sortedExtracts;
+    } else {
+      const sortedExtracts = extracts.sort((item1, item2) => {
+        if (item1.createdAt > item2.createdAt) {
+          return -1;
+        }
+  
+        if (item1.createdAt < item2.createdAt) {
+          return 1;
+        }
+  
+        return 0;
+      });
+      setBtnName('crescente');
+      return sortedExtracts;
+    }
+  }
+  
   const generateExtract = async () => {
-    if (!user) return;
-
-    const {creditedTransactions, debitedTransactions} = user.account;
-
-    setCashIn(creditedTransactions);
-    setCashOut(debitedTransactions);
-
-    setExtracts([...cashIns, ...cashOuts]);
+    if (user) {
+      const {debitedTransactions, creditedTransactions} = user.account;
+      
+      const extracts = ([...debitedTransactions, ...creditedTransactions]);
+      
+      const sortedExtracts = await changeOrder(extracts);
+      
+      setExtracts(sortedExtracts);
+    }
   };
 
   const logout = async () => {
@@ -72,7 +98,6 @@ export default function Logged() {
       sendTransfer(transaction);
     }
   };
-
 
   return (
     <div className="container">
@@ -124,10 +149,8 @@ export default function Logged() {
         <div className="extracts-container">
           <h1 className="extract-title">Relatório de transações IT Ca$h</h1>
             <div className="extract-btn">
-              {/* <button id="change-order-btn" onClick={filterByDateOrder}>Ordem crescente</button> */}
-              <button id="general-extract-btn" onClick={generateExtract}>Extrato geral</button>
-              {/* <button id="cashin-extract-btn" onClick={generateExtractCashIn}>Extrato entradas</button>
-              <button id="cashout-extract-btn" onClick={generateExtractCashOut}>Extrato saídas</button> */}
+              <button id="change-order-btn" onClick={() => changeOrder(extracts)}>{btnName}</button>
+              <button id="generate-extract-btn" onClick={generateExtract}>Gerar extrato</button>
             </div>
           <div className="table-extracts">
             <table id="extract-list">
@@ -143,7 +166,7 @@ export default function Logged() {
               </tr>
             </thead>
             <tbody id="tbody-extract">
-            {extracts.length >= 0 && extracts.map((extract) => RowGenerate(extract, user?.username))}
+            {extracts.length >= 0 && extracts.map((extract: Transaction) => <RowGenerate extract={extract} username={user?.username} />)}
             </tbody>
           </table>
           </div>
