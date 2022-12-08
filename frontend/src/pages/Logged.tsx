@@ -8,40 +8,78 @@ import '../styles/logged.css';
 export default function Logged() {
   const navigate = useNavigate();
 
-  const [balance, setBalance] = useState<number>();
-  const [cashOuts, setCashOut] = useState<cahsOutOrIn[]>([]);
-  const [cashIns, setCashIn] = useState<cahsOutOrIn[]>([]);
-  const [extracts, setExtracts] = useState<cahsOutOrIn[]>([]);
-  const [sortExtracts, setSortExtracts] = useState<cahsOutOrIn[]>([]);
+  const refCreditedId = useRef<HTMLInputElement>(null);
+  const refValueTransfer = useRef<HTMLInputElement>(null);
 
-  // const [formatedDate, setFormatedDate] = useState<string>();
+  const [extracts, setExtracts] = useState<Transaction[]>([]);
 
-  const getBalanceURL = 'http://localhost:3001/user/balance';
-  const getCashOutURL = 'http://localhost:3001/transactions/debited';
-  const getCashInURL = 'http://localhost:3001/transactions/credited';
+  const [user, setUser] = useState<UserAllFields>();
+  const [btnName, setBtnName] = useState<string>('crescente');
+
+  const getUserInfoURL = 'http://localhost:3001/user/info';
   const sendTransferURL = 'http://localhost:3001/transaction';
-  
+
   const token = localStorage.getItem('token');
   const Authorization = JSON.parse(token || '');
 
   useEffect(() => {
-    axios.get(getBalanceURL, { headers: { Authorization }})
-      .then((response) => {
-        setBalance(response.data);
-      })
-      .catch((err) => err);
-  }, [Authorization]);
+    axios.get(getUserInfoURL, { headers: { Authorization }})
+    .then((response) => {
+      setUser(response.data);
+    })
+    .catch((err) => console.log(err)
+    );
+  }, []);
 
-  const username = JSON.parse(localStorage.getItem('username') || '');
+  const changeOrder = async (extracts: Transaction[]) => {
+    if (btnName === 'crescente') {
+      const sortedExtracts = extracts.sort((item1, item2) => {
+        if (item1.createdAt > item2.createdAt) {
+          return 1;
+        }
+  
+        if (item1.createdAt < item2.createdAt) {
+          return -1;
+        }
+  
+        return 0;
+      });
+      setBtnName('decrescente');
+      return sortedExtracts;
+    } else {
+      const sortedExtracts = extracts.sort((item1, item2) => {
+        if (item1.createdAt > item2.createdAt) {
+          return -1;
+        }
+  
+        if (item1.createdAt < item2.createdAt) {
+          return 1;
+        }
+  
+        return 0;
+      });
+      setBtnName('crescente');
+      return sortedExtracts;
+    }
+  }
+  
+  const generateExtract = async () => {
+    if (user) {
+      const {debitedTransactions, creditedTransactions} = user.account;
+      
+      const extracts = ([...debitedTransactions, ...creditedTransactions]);
+      
+      const sortedExtracts = await changeOrder(extracts);
+      
+      setExtracts(sortedExtracts);
+    }
+  };
 
   const logout = async () => {
     navigate('/user/login');
     localStorage.setItem('token', JSON.stringify(''));
     localStorage.setItem('username', JSON.stringify(''));
   };
-
-  const refCreditedId = useRef<HTMLInputElement>(null);
-  const refValueTransfer = useRef<HTMLInputElement>(null);
 
   const sendTransfer = async (transaction: TransactionSend) => {
     await axios.post(sendTransferURL, transaction, { headers: { Authorization }})
@@ -61,73 +99,12 @@ export default function Logged() {
     }
   };
 
-  const generateExtract = async () => {
-    setCashOut([]);
-    setCashIn([]);
-    setSortExtracts([]);
-
-    const cashOutExtracts = await axios.get(getCashOutURL, { headers: { Authorization }})
-      .then((response) => response.data)
-      .catch((err) => err);
-
-    const cashInExtracts = await axios.get(getCashInURL, { headers: { Authorization }})
-      .then((response) => response.data)
-      .catch((err) => err);
-
-    setExtracts([...cashOutExtracts, ...cashInExtracts])
-  };
-
-  const generateExtractCashIn = async () => {
-    setCashOut([]);
-    setExtracts([]);
-    setSortExtracts([]);
-
-    await axios.get(getCashInURL, { headers: { Authorization }})
-      .then((response) => {
-        setCashIn(response.data);
-      })
-      .catch((err) => err);
-  };
-
-  const generateExtractCashOut = async () => {
-    setCashIn([]);
-    setExtracts([]);
-    setSortExtracts([]);
-
-    await axios.get(getCashOutURL, { headers: { Authorization }})
-      .then((response) => {
-        setCashOut(response.data);
-      })
-      .catch((err) => err);
-  };
-
-  const filterByDateOrder = async () => {
-    if (extracts.length > 0) {
-      const orderned = extracts.reverse();
-      setExtracts([]);
-      setSortExtracts(orderned)
-    };
-
-    if (cashIns.length > 0) {
-      const orderned = cashIns.reverse();
-      setCashIn([]);
-      setSortExtracts(orderned);
-    };
-
-    if (cashOuts.length > 0) {
-      const orderned = cashOuts.reverse();
-      setCashOut([]);
-      setSortExtracts(orderned)
-    };
-
-  };
-
   return (
     <div className="container">
       <div className="container-logged">
         <header className="header-logged">
           <div className="header-left">
-            <span className="actual-balance">{`Saldo atual IT$ ${balance}`}</span>
+            <span className="actual-balance">{`Saldo atual IT$ ${user?.account.balance}`}</span>
           </div>
           <div className="header-center">
             <h1 className="transaction-title">Transferência</h1>
@@ -135,7 +112,7 @@ export default function Logged() {
               <div className="wrap-transaction-input">
                 <input className="input-transaction debited-account-id"
                   type="text"
-                  value={username}
+                  value={user?.username}
                   readOnly
                 />
               </div>
@@ -162,18 +139,18 @@ export default function Logged() {
           </div>
           <div className="header-right">
             <div className="actual-username">
-              <span className="username">{`Logado com ${username}`}</span>
+              <span className="username">{`Logado com ${user?.username}`}</span>
             </div>
-            <button className="logout-btn" onClick={ logout }>Sair</button>
+            <div className="container-logout-btn">
+              <button className="logout-btn" onClick={ logout }>Sair</button>
+            </div>
           </div>
         </header>
         <div className="extracts-container">
           <h1 className="extract-title">Relatório de transações IT Ca$h</h1>
             <div className="extract-btn">
-              <button id="change-order-btn" onClick={filterByDateOrder}>Ordem crescente</button>
-              <button id="general-extract-btn" onClick={generateExtract}>Extrato geral</button>
-              <button id="cashin-extract-btn" onClick={generateExtractCashIn}>Extrato entradas</button>
-              <button id="cashout-extract-btn" onClick={generateExtractCashOut}>Extrato saídas</button>
+              <button id="change-order-btn" onClick={() => changeOrder(extracts)}>{btnName}</button>
+              <button id="generate-extract-btn" onClick={generateExtract}>Gerar extrato</button>
             </div>
           <div className="table-extracts">
             <table id="extract-list">
@@ -189,11 +166,7 @@ export default function Logged() {
               </tr>
             </thead>
             <tbody id="tbody-extract">
-            
-            {extracts.length >= 0 && extracts.map((extract) => RowGenerate(extract))}
-            {cashOuts.length >= 0 && cashOuts.map((cashout) => RowGenerate(cashout))}
-            {cashIns.length >= 0 && cashIns.map((cashin) => RowGenerate(cashin))}
-            {sortExtracts.length >= 0 && sortExtracts.map((sortExtract) => RowGenerate(sortExtract))}
+            {extracts.length >= 0 && extracts.map((extract: Transaction) => <RowGenerate extract={extract} username={user?.username} />)}
             </tbody>
           </table>
           </div>
