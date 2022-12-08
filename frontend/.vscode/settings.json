@@ -12,6 +12,8 @@
     "type",
     "assets",
     "styles",
-    "readme"
+    "readme",
+    "transaction",
+    "prisma"
   ],
 }
