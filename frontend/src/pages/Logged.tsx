@@ -14,7 +14,7 @@ export default function Logged() {
   const [extracts, setExtracts] = useState<Transaction[]>([]);
 
   const [user, setUser] = useState<UserAllFields>();
-  const [btnName, setBtnName] = useState<string>('crescente');
+  const [btnName, setBtnName] = useState<string>('decrescente');
 
   const getUserInfoURL = 'http://localhost:3001/user/info';
   const sendTransferURL = 'http://localhost:3001/transaction';
@@ -69,7 +69,17 @@ export default function Logged() {
       
       const extracts = ([...debitedTransactions, ...creditedTransactions]);
       
-      const sortedExtracts = await changeOrder(extracts);
+      const sortedExtracts = extracts.sort((item1, item2) => {
+        if (item1.createdAt > item2.createdAt) {
+          return 1;
+        }
+  
+        if (item1.createdAt < item2.createdAt) {
+          return -1;
+        }
+  
+        return 0;
+      });
       
       setExtracts(sortedExtracts);
     }
@@ -164,28 +174,32 @@ export default function Logged() {
           </div>
         </header>
         <div className="extracts-container">
-          <h1 className="extract-title">Relatório de transações IT Ca$h</h1>
-            <div className="extract-btn">
-              <button id="change-order-btn" onClick={() => changeOrder(extracts)}>{btnName}</button>
-              <button id="generate-extract-btn" onClick={generateExtract}>Gerar extrato</button>
+          <div className="extracts-wrap">
+            <div className="extract-title-container">
+              <h1 className="extract-title">Relatório de transações IT Ca$h</h1>
             </div>
-          <div className="table-extracts">
-            <table id="extract-list">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Conta debitada</th>
-                <th>Conta creditada</th>
-                <th>Valor da transação</th>
-                <th>Data</th>
-                <th>Hora</th>
+              <div className="extract-btns">
+                <button id="change-order-btn"  className={btnName} onClick={() => changeOrder(extracts)} />
+                <button id="generate-extract-btn" onClick={generateExtract}>Gerar extrato</button>
+              </div>
+            <div className="table-extracts">
+              <table id="extract-list">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Conta debitada</th>
+                  <th>Conta creditada</th>
+                  <th>Valor da transação</th>
+                  <th>Data</th>
+                  <th>Hora</th>
 
-              </tr>
-            </thead>
-            <tbody id="tbody-extract">
-            {extracts.length >= 0 && extracts.map((extract: Transaction) => <RowGenerate extract={extract} username={user?.username} />)}
-            </tbody>
-          </table>
+                </tr>
+              </thead>
+              <tbody id="tbody-extract">
+              {extracts.length >= 0 && extracts.map((extract: Transaction) => <RowGenerate extract={extract} username={user?.username} />)}
+              </tbody>
+            </table>
+            </div>
           </div>
         </div>
       </div>
