@@ -38,9 +38,8 @@ export default function Login() {
           navigate('/user/logged');
         };
       })
-      .catch((error) => {
-        console.log(error, 'catch');
-      });
+      .catch((err) => setErrors({ code: 401, message: err.response.data })
+      );
   };
 
   const getValues = async (event: FormEvent<HTMLFormElement>) => {
