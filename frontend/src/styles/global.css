@@ -8,13 +8,16 @@
 .container {
   width: 100%;
   margin: 0 auto;
+  background-image: var(--back-ground-image-container);
+  background-repeat: no-repeat;
+  background-size: auto;
 }
 
 :root {
   --color-border-box: #266592;
   --color-title: #000000;
   --color-background-form: #acaeb0;
-  --color5: #1f5379;
+  --background-link: #1f5379;
   --color-black: #000000;
   --color-enable: #12486e;
   --color-alert: #0d0937;
@@ -32,7 +35,7 @@
 }
 
 .image-logo img {
-  border: 2px outset var(--color5);
+  border: 2px outset var(--background-link);
   width: 150px;
   border-radius: 10%;
 }

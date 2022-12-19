@@ -1,0 +1,143 @@
+.container-logged {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-logged {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--color-background-form);
+  opacity: 0.9;
+}
+
+.header-left {
+  display: flex;
+  justify-content: left;
+}
+
+.wrap-balance {
+  box-shadow: 3px 6px 8px 3px var(--color-shadow);
+  background-color: var(--color-enable);
+  padding: 15px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-enable);
+  margin: 15px;
+  padding: 5px;
+  box-shadow: 3px 6px 8px 3px var(--color-shadow);
+  border-radius: 20px;
+}
+
+.transaction-title {
+  text-transform: uppercase;
+  font-size: medium;
+  padding: 5px 0px 5px 0px;
+}
+
+.transaction-form {
+  display: flex;
+  padding-bottom: 15px;
+}
+
+.wrap-transaction-input {
+  padding: 5px 3px 5px 3px;
+}
+
+.input-transaction {
+  border: 1px inset var(--color-black);
+  box-shadow: 0px 6px 8px 0px var(--color-shadow);
+  border-radius: 15px;
+  padding: 5px 3px 5px 3px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.input-transaction::-webkit-inner-spin-button, .input-transaction::-webkit-inner-spin-button {
+  -webkit-appearance: none; 
+}
+
+.input-transaction:focus {
+  color: var(--color-black);
+  outline: none;
+}
+
+.input-transaction::placeholder {
+  color: var(--color-black);
+  outline: none;
+}
+
+.input-transaction:focus::placeholder {
+  color: transparent;
+}
+
+.wrap-transaction-btn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 5px 5px 5px 5px;
+}
+
+#send-transfer-btn {
+  background-color: var(--color-desactived);
+  color: var(--color-background-form);
+  border: none;
+  box-shadow: 0px 6px 8px 0px var(--color-shadow);
+  border-radius: 15px;
+  padding: 5px 3px 5px 3px;
+}
+
+#send-transfer-btn:hover:enabled {
+  opacity: 1;
+  cursor: pointer;
+  color: var(--color-black);
+  background-color: var(--color-enable);
+}
+
+#send-transfer-btn:disabled {
+  color: var(--color-background-form);
+  background-color: var(--color-desactived);
+}
+
+.header-right {
+  display: flex;
+  justify-content: right;
+}
+
+.wrap-actual-username {
+  box-shadow: 0px 6px 8px 0px var(--color-shadow);
+  background-color: var(--color-enable);
+  padding: 15px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.wrap-logout-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.logout-btn {
+  width: 30px;
+  height: 30px;
+  background-image: url('../assets/logout.png');
+  background-size: cover;
+  background-color: transparent;
+  border: none;
+}
+
+.logout-btn:hover {
+  cursor: pointer;
+}

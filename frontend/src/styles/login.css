@@ -1,9 +1,3 @@
-.container {
-  background-image: var(--back-ground-image-container);
-  width: 100%;
-  background-repeat: no-repeat;
-  background-size: auto;
-}
 .container-login {
   width: 100%;
   min-height: 100vh;
@@ -139,7 +133,7 @@ button[disabled] {
   width: 25%;
   padding: 4px 4px 4px 4px;
   border-radius: 20px;
-  background-color: var(--color5);
+  background-color: var(--background-link);
   line-height: 1.5;
   box-shadow: 0px 6px 8px 0px var(--color-shadow);
   text-align: center;
