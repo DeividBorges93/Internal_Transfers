@@ -99,12 +99,20 @@ export default function Logged() {
     }
   };
 
+  const checkValues = async () => {
+    const submitBtn = document.getElementById('send-transfer-btn') as HTMLButtonElement;
+
+    submitBtn.disabled = false
+  }
+
   return (
     <div className="container">
       <div className="container-logged">
         <header className="header-logged">
           <div className="header-left">
-            <span className="actual-balance">{`Saldo atual IT$ ${user?.account.balance}`}</span>
+            <div className="wrap-balance">
+              <span className="actual-balance">{`Saldo atual IT$ ${user?.account.balance},00`}</span>
+            </div>
           </div>
           <div className="header-center">
             <h1 className="transaction-title">Transferência</h1>
@@ -118,31 +126,40 @@ export default function Logged() {
               </div>
               <div className="wrap-transaction-input">
                 <input className="input-transaction credited-account-id"
+                  id="credit-id"
                   type="number"
                   ref={refCreditedId}
+                  onChange={checkValues}
                   placeholder="ID que receberá o saldo"
                 />
               </div>
               <div className="wrap-transaction-input">
                 <input className="input-transaction value-transfer"
+                  id="value"
                   type="number"
                   ref={refValueTransfer}
+                  onChange={checkValues}
                   placeholder="Valor da transferência"
                 />
               </div>
-              <button className="send-tranfer-btn"
-                type="submit"
-              >
-                Transferir
-              </button>
+              <div className="wrap-transaction-btn">
+                <button
+                  id="send-transfer-btn"
+                  type="submit"
+                  disabled
+                >
+                  Transferir
+                </button>
+              </div>
             </form>
           </div>
           <div className="header-right">
-            <div className="actual-username">
+            <div className="wrap-actual-username">
               <span className="username">{`Logado com ${user?.username}`}</span>
             </div>
-            <div className="container-logout-btn">
-              <button className="logout-btn" onClick={ logout }>Sair</button>
+            <div className="wrap-logout-btn">
+              <button className="logout-btn" onClick={ logout } >
+              </button>
             </div>
           </div>
         </header>
