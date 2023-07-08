@@ -30,7 +30,7 @@ class Api {
   private routes(): void {
     this.api.get(
       '/ping',
-      (_res: Request, res: Response) => res.status(200).json({ data: 'Pong' })
+      (_req: Request, res: Response) => res.status(200).json({ data: 'Pong' })
       );
       
       this.api.use(userRouter);
