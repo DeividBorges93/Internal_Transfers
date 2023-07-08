@@ -1,21 +1,20 @@
-# Boas-vindas a API Internal Transfers!
- - Uma API para realização de transferência de valores entre usuários.
- - Rota para cadastro de usuário
- - Rota para login de usuário
- - Rota para fazer uma transação
- - Rotas para pegar as transações feitas
+# Boas-vindas ao repositório backend do projeto Internal Transfers!
+  Sistema backend para o projeto Internal Transfers.
 
 ## Features
-
 - [x] Criação de usuário
 - [x] Efetuar login
 - [x] Criar, ler, transferências de valor
 - [x] Filtrar projetos por cash-in, cash-out
 - [x] Ordenar por data decrescente como default e botão para crescente
 
-## Pré-requisitos para rodar a aplicação Backend
+## Pré-requisitos para rodar a aplicação
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas: [![Git Badge](https://img.shields.io/badge/-Git-black?style=flat-square&logo=git)](https://git-scm.com) [![Nodejs Badge](https://img.shields.io/badge/-Nodejs-black?style=flat-square&logo=Node.js)](https://nodejs.org/en/)
+
+## Começando:
+
+Antes de começar siga os passos a seguir:
 
 - Clone o repositório
 ~~~Java
@@ -26,7 +25,6 @@ git@github.com:DeividBorges93/Internal_Transfers.git
 ~~~Java
 cd /Internal_Transfers/backend
 ~~~
-
 
 - Instale as dependencias
 ~~~Java
