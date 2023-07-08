@@ -1,0 +1,226 @@
+.container-logged {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-logged {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--color-background-form);
+  opacity: 0.9;
+}
+
+.header-left {
+  display: flex;
+  justify-content: left;
+}
+
+.wrap-balance {
+  box-shadow: 3px 6px 8px 3px var(--color-shadow);
+  background-color: var(--color-enable);
+  padding: 15px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-enable);
+  margin: 15px;
+  padding: 5px;
+  box-shadow: 3px 6px 8px 3px var(--color-shadow);
+  border-radius: 20px;
+}
+
+.transaction-title {
+  text-transform: uppercase;
+  font-size: medium;
+  padding: 5px 0px 5px 0px;
+}
+
+.transaction-form {
+  display: flex;
+  padding-bottom: 15px;
+}
+
+.wrap-transaction-input {
+  padding: 5px 3px 5px 3px;
+}
+
+.input-transaction {
+  border: 1px inset var(--color-black);
+  box-shadow: 0px 6px 8px 0px var(--color-shadow);
+  border-radius: 15px;
+  padding: 5px 3px 5px 3px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.input-transaction::-webkit-inner-spin-button, .input-transaction::-webkit-inner-spin-button {
+  -webkit-appearance: none; 
+}
+
+.input-transaction:focus {
+  color: var(--color-black);
+  outline: none;
+}
+
+.input-transaction::placeholder {
+  color: var(--color-black);
+  outline: none;
+}
+
+.input-transaction:focus::placeholder {
+  color: transparent;
+}
+
+.wrap-transaction-btn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 5px 5px 5px 5px;
+}
+
+#send-transfer-btn {
+  background-color: var(--color-desactived);
+  color: var(--color-background-form);
+  border: none;
+  box-shadow: 0px 6px 8px 0px var(--color-shadow);
+  border-radius: 15px;
+  padding: 5px 3px 5px 3px;
+}
+
+#send-transfer-btn:hover:enabled {
+  opacity: 1;
+  cursor: pointer;
+  color: var(--color-black);
+  background-color: var(--color-enable);
+}
+
+#send-transfer-btn:disabled {
+  color: var(--color-background-form);
+  background-color: var(--color-desactived);
+}
+
+.header-right {
+  display: flex;
+  justify-content: right;
+}
+
+.wrap-actual-username {
+  box-shadow: 0px 6px 8px 0px var(--color-shadow);
+  background-color: var(--color-enable);
+  padding: 15px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.wrap-logout-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.logout-btn {
+  width: 30px;
+  height: 30px;
+  background-image: url('../assets/logout.png');
+  background-size: cover;
+  background-color: transparent;
+  border: none;
+}
+
+.logout-btn:hover {
+  cursor: pointer;
+}
+
+.extracts-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.extracts-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  border-radius: 20px;
+  background-color: var(--color-background-form);
+  padding: 10px 10px 15px 10px;
+}
+
+.extract-title-container {
+  background-color: var(--color-enable);
+  margin-top: 10px;
+  padding: 5px 10px 5px 10px;
+  border-radius: 10px;
+  box-shadow: 0px 6px 8px 0px var(--color-shadow);
+
+}
+
+.extract-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 5px 10px 5px;
+}
+
+#change-order-btn {
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  border-radius: 50px;
+  border: none;
+  background-color: transparent;
+  margin-right: 10px;
+  box-shadow: 0px 6px 8px 0px var(--color-shadow);
+
+}
+
+#change-order-btn:hover {
+  cursor: pointer;
+} 
+
+.crescente {
+  background-image: url('../assets/sort+descending-1330572106723613195.png');
+}
+
+.decrescente {
+  background-image: url('../assets/sort+ascending-1330572106359197014.png');
+}
+
+#generate-extract-btn {
+  box-shadow: 0px 6px 8px 0px var(--color-shadow);
+  border: none;
+  border-radius: 15px;
+  padding: 5px 3px 5px 3px;
+}
+
+#generate-extract-btn:hover {
+  cursor: pointer;
+  background-color: var(--color-enable);
+  color: white;
+}
+
+#extract-list th, td {
+  padding-right: 10px;
+}
+
+.credit-transaction {
+  color: green;
+}
+
+.debit-transaction {
+  color: red;
+}

@@ -1,0 +1,19 @@
+{
+  "conventionalCommits.scopes": [
+    "docker-compoe",
+    "docker-compose",
+    "conventionalCommits",
+    "react",
+    "pages",
+    "components",
+    "routes",
+    "package",
+    "user",
+    "type",
+    "assets",
+    "styles",
+    "readme",
+    "transaction",
+    "prisma"
+  ],
+}

@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-// const pattern = '^(?=.*[0-9])(?=.*[A-Z])[a-zA-Z0-9]$';
-// const regexExp = new RegExp(pattern);
+const needANumber = '(?=.*[0-9])'
+const regexNeedANumber = new RegExp(needANumber);
 
-// console.log(regexExp, ' regex');
-
+const needAUpCase = '(?=.*[A-Z])';
+const regexneedAUpCase = new RegExp(needAUpCase);
 
 const numMinUsername = 3;
 const numMinPassword = 8
@@ -12,12 +12,28 @@ const numMinPassword = 8
 const messages = {
   minUsername: "Usuário precisa ter pelo menos 3 caracteres",
   minLogin: "Senha precisa ter pelo menos 8 caracteres",
-  numAndUpCase: "Senha precisa ter um número e uma letra maiúscula"
+  minOneNumber: "Senha precisa ter um número",
+  oneUpCase: "Senha precisa ter uma letra maiúscula"
 }
 
 export const UserSchema = z.object({
-    username: z.string().min(numMinUsername, messages.minUsername),
-    password: z.string().min(numMinPassword, messages.minLogin), //.regex(regexExp, { message: messages.numAndUpCase }),
-  })
+    username: z.string({ required_error: 'Username é obrigatório' }).min(numMinUsername, messages.minUsername),
+    password: z.string({ required_error: 'Password é obrigatório'})
+      .min(numMinPassword, messages.minLogin)
+      .regex(regexNeedANumber, { message: messages.minOneNumber })
+      .regex(regexneedAUpCase, { message: messages.oneUpCase }),
+  });
 
-  export type User = z.infer<typeof UserSchema>;
+export type User = z.infer<typeof UserSchema>;
+
+export const UserLoginSchema = z.object({
+  username: z.string({ required_error: 'Username é obrigatório' }),
+  password: z.string({ required_error: 'Password é obrigatório'})
+});
+
+export const TransactionSchema = z.object({
+  creditedAccountId: z.number({ required_error: 'CreditedAccountId é obrigatório' }),
+  value: z.number({ required_error: 'Value é obrigatório' }),
+});
+
+export type Transaction = z.infer<typeof TransactionSchema>;

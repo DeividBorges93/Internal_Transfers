@@ -19,5 +19,6 @@
     "middlewares",
     "logs",
     "user"
+    "readme"
   ]
 }

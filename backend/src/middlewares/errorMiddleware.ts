@@ -8,11 +8,10 @@ const errorMiddleware: ErrorRequestHandler = (
   res: Response,
   _next: NextFunction
   ) => {
-    
-  console.error(error);
 
   if (error.code) return res.status(error.code).json(error.message);
 
+  console.error(error.message);
 
   return res.status(500).json(error);
 };
