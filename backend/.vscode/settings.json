@@ -17,6 +17,8 @@
     "controllers",
     "routes",
     "middlewares",
+    "logs",
+    "user"
     "readme"
   ]
 }
