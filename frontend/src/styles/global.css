@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat",sans-serif;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  background-image: var(--back-ground-image-container);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+
+:root {
+  --color-border-box: #266592;
+  --color-title: #000000;
+  --color-background-form: #acaeb0;
+  --background-link: #1f5379;
+  --color-black: #000000;
+  --color-enable: #12486e;
+  --color-alert: #5f010c;
+  --color-desactived: rgb(110, 108, 108);
+  --color-shadow: rgba(40, 39, 39, 0.85);
+
+  --back-ground-image-container: url('../assets/back-ground-pattern.png');
+  --back-ground-image-wrap: url('../assets/back-ground-register-user.png');
+}
+
+.image-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.image-logo img {
+  border: 2px outset var(--background-link);
+  width: 150px;
+  border-radius: 10%;
+}

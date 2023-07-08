@@ -1,0 +1,15 @@
+{
+  "conventionalCommits.scopes": [
+    "prisma",
+    "interfaces",
+    "services",
+    "controllers",
+    "middlewares",
+    "api",
+    "routes",
+    "docker",
+    "migration",
+    "package",
+    "pages"
+  ]
+}

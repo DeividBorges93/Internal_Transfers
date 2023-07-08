@@ -1,0 +1,22 @@
+{
+  "conventionalCommits.scopes": [
+    "config",
+    "docker",
+    "package",
+    "schemas_zod",
+    "utils",
+    "interfaces",
+    "custom_erro",
+    "services",
+    "conventionalCommits",
+    "erros",
+    "prisma",
+    "password",
+    "jwt",
+    "thunderCli",
+    "controllers",
+    "routes",
+    "middlewares",
+    "readme"
+  ]
+}
